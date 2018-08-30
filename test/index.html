@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <link rel="stylesheet" href="../src/style/percentDragEditor.css">
+
+  <script src="../src/js/percentDragEditor.js"></script>
+
+
+</head>
+<body>
+
+<div>
+  <button id="add">增加</button>
+  <button id="remove">减少</button>
+</div>
+
+<div style="width:800px; margin:20px;">
+  <div id="percentDrag">
+  </div>
+</div>
+
+<script>
+  var dragEditor = new percentDragEditor(document.getElementById('percentDrag'));
+
+
+  document.getElementById('add').addEventListener('click', function () {
+    dragEditor.addGroup();
+  });
+
+
+  document.getElementById('remove').addEventListener('click', function () {
+    dragEditor.removeGroup();
+  });
+
+</script>
+</body>
+</html>

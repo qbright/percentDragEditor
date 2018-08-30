@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <link rel="stylesheet" href="../src/style/percentDragEditor.css">
+
+  <script src="../src/js/percentDragEditor.js"></script>
+
+
+</head>
+<body>
+
+<div>
+  <button>增加</button>
+  <button>减少</button>
+</div>
+
+<div style="width:500px; margin:20px;">
+  <div class="_percent_drag_editor" id="percentDrag">
+    <div class="_pde_bar">
+      <div style="flex-grow:10" class="_pde_group">
+        <span> 10% </span>
+        <div class="_pde_slider"></div>
+      </div>
+      <div style="flex-grow:20" class="_pde_group">
+        <span> 20% </span>
+        <div class="_pde_slider"></div>
+      </div>
+      <div style="flex-grow:30" class="_pde_group">
+        <span> 30% </span>
+        <div class="_pde_slider"></div>
+      </div>
+      <div style="flex-grow:40" class="_pde_group">
+        <span> 40% </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // console.log(new percentDragEditor(document.getElementById('percentDrag')));
+
+  var sliderSet = document.querySelectorAll('._pde_slider');
+
+
+  var sliderSet = Array.apply(null, sliderSet);
+
+  var startX;
+  sliderSet.forEach(el => {
+    el.addEventListener('mousedown', function (e) {
+
+      startX = e.clientX;
+
+      var move = function (e) {
+        console.log('move', e.clientX - startX);
+      }
+
+      var up = function (e) {
+        console.log('up', e);
+        window.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseup', up);
+      }
+
+      window.addEventListener('mousemove', move);
+
+      window.addEventListener('mouseup', up);
+
+
+    });
+  });
+
+
+</script>
+</body>
+</html>
