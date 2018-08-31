@@ -1,7 +1,7 @@
 var percentDragEditor = (function (window, undefined) {
 
   // var groupItem = "<span class='_pde_text'> ${ITEM}% </span> <div class='_pde_slider'><div class='_pde_slider_inner'></div> </div>"
-  var groupItem = "<span class='_pde_text'> ${ITEM}% </span> <div class='_pde_slider'> </div>"
+  var groupItem = "<span class='_pde_text'> ${ITEM}% </span> <div class='_pde_slider ${disableDrag}'> </div>"
   var groupLastItem = "<span class='_pde_text'> ${ITEM}% </span>";
 
   var _pde = function (el, config) {
@@ -89,12 +89,12 @@ var percentDragEditor = (function (window, undefined) {
       if (isLast) { // 最后一个
         t = groupLastItem;
       }
-      temp.innerHTML = new String(t).replace('${ITEM}', item);
+      temp.innerHTML = new String(t).replace('${ITEM}', item).replace('${disableDrag}', this.cf.disableDrag ? 'disableDrag' : '');
       return temp;
 
     },
 
-    bindDragEvent: function () {
+    bindDragEvent: function (onlyRemove) {
 
       var sliderSet = this._el.querySelectorAll('._pde_slider');
 
@@ -128,6 +128,9 @@ var percentDragEditor = (function (window, undefined) {
         el.removeEventListener('mousedown', mouseMove)
       })
 
+      if (onlyRemove) {
+        return;
+      }
 
       sliderSet.forEach(function (el) {
         el.addEventListener('mousedown', mouseMove);
@@ -229,6 +232,21 @@ var percentDragEditor = (function (window, undefined) {
       r2.parentNode.removeChild(r2);
 
       this._el.querySelector('._pde_bar').appendChild(lastGroupEl);
+
+    },
+    resetGroup: function (group) {
+      this.cf.group = group || [];
+      this.resetAll();
+
+      this.initDomAndStyle();
+      this.initGroup();
+
+    },
+
+    resetAll: function () {
+      this.bindDragEvent(true);
+
+      this._el.innerHTML = "";
 
     }
 

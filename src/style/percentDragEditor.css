@@ -31,6 +31,10 @@
   height: 100%;
 }
 
+._percent_drag_editor ._pde_bar ._pde_slider.disableDrag {
+  cursor: auto;
+}
+
 ._percent_drag_editor ._pde_bar ._pde_slider_inner {
 
 }
