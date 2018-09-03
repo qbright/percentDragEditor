@@ -1,8 +1,8 @@
 var percentDragEditor = (function (window, undefined) {
 
   // var groupItem = "<span class='_pde_text'> ${ITEM}% </span> <div class='_pde_slider'><div class='_pde_slider_inner'></div> </div>"
-  var groupItem = "<span class='_pde_text'> ${ITEM}% </span> <div class='_pde_slider ${disableDrag}'> </div>"
-  var groupLastItem = "<span class='_pde_text'> ${ITEM}% </span>";
+  var groupItem = "<span class='_pde_text'> ${ITEM} </span> <div class='_pde_slider ${disableDrag}'> </div>"
+  var groupLastItem = "<span class='_pde_text'> ${ITEM} </span>";
 
   var _pde = function (el, config) {
     this.init(el, config);
@@ -18,13 +18,14 @@ var percentDragEditor = (function (window, undefined) {
 
       //TODO disable配置，只有展示，不能拖动
       this.cf = Object.assign({
-        group: [20, 25, 30, 25],
-        minlimit: 5,
-        step: 5,
+        group: [100, 200, 300, 400],
+        minlimit: 1,
+        step: 1,
         minGroup: 4,
         disableDrag: false
       }, config);
       this._el = el;
+
 
       this.initDomAndStyle();
 
@@ -61,7 +62,16 @@ var percentDragEditor = (function (window, undefined) {
 
     calcStepWidth () { //TODO 在 window resize的时候进行处理
 
-      this.stepWidth = parseInt((this.barWidth / 100) * this.cf.step);
+
+      this.groupsum = 0;
+      this.cf.group.forEach(function (item) {
+        this.groupsum += item;
+      }.bind(this));
+
+      this.stepWidth = (this.barWidth / this.groupsum).toFixed(2);
+
+      console.log(this.stepWidth);
+
     },
 
     initGroup: function () {
@@ -158,8 +168,8 @@ var percentDragEditor = (function (window, undefined) {
       this.nowDragTarget.style.flexGrow = t1;
       this.nowDragNextTarget.style.flexGrow = t2;
 
-      this.nowDragTarget.querySelector('._pde_text').innerText = `${t1}%`;
-      this.nowDragNextTarget.querySelector('._pde_text').innerText = `${t2}%`;
+      this.nowDragTarget.querySelector('._pde_text').innerText = `${t1}`;
+      this.nowDragNextTarget.querySelector('._pde_text').innerText = `${t2}`;
 
       // } else if (moveRound < 0) {
       //
@@ -178,9 +188,14 @@ var percentDragEditor = (function (window, undefined) {
     },
 
     addGroup: function () {
+
+      console.log(12313);
+
       var separateGroupValue = this.separateGroup().filter(function (item) {
         return item.d >= 5;
       });
+
+      console.log(separateGroupValue);
 
       if (!separateGroupValue.length) {
         return;
