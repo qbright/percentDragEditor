@@ -24,7 +24,9 @@
 </div>
 
 <script>
-  var dragEditor = new percentDragEditor(document.getElementById('percentDrag'));
+  var dragEditor = new percentDragEditor(document.getElementById('percentDrag'), {
+    length: 1234
+  });
 
 
   document.getElementById('add').addEventListener('click', function () {

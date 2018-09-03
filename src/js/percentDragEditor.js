@@ -16,6 +16,8 @@ var percentDragEditor = (function (window, undefined) {
         throw new Error('the el is undefined');
       }
 
+      el.innerHTML = "";
+
       //TODO disable配置，只有展示，不能拖动
       this.cf = Object.assign({
         group: [100, 200, 300, 400],
@@ -26,12 +28,33 @@ var percentDragEditor = (function (window, undefined) {
       }, config);
       this._el = el;
 
+      if (this.cf.length !== undefined && config.group === undefined) {
+        this.initLengthGroup();
+      }
 
       this.initDomAndStyle();
 
       this.initGroup();
 
     },
+
+    initLengthGroup () {//初始化传入length的group
+      let t;
+      if (this.cf.length < this.cf.minGroup) {//如果长度小于最小组数
+        this.cf.minGroup = this.cf.length;
+        t = 1;
+      } else {
+        t = parseInt(this.cf.length / this.cf.minGroup);
+      }
+
+      this.cf.group = Array.apply(null, Array(this.cf.minGroup - 1)).map(function () {
+        return t;
+      });
+
+      this.cf.group.push(this.cf.length - (this.cf.minGroup - 1) * t);
+
+    },
+
     checkConfig: function () { //TODO check config group;
       var g = this.cf.group;
 
