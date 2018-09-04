@@ -212,10 +212,8 @@ var percentDragEditor = (function (window, undefined) {
 
     addGroup: function () {
 
-      console.log(12313);
-
       var separateGroupValue = this.separateGroup().filter(function (item) {
-        return item.d >= 5;
+        return item.d >= 1;
       });
 
       console.log(separateGroupValue);
